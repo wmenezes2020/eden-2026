@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 60" width="300" height="60">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c9a962"/>
+      <stop offset="50%" style="stop-color:#e5d4a1"/>
+      <stop offset="100%" style="stop-color:#c9a962"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Transparent background for wordmark -->
+  
+  <!-- Wordmark Text -->
+  <text x="0" y="45" font-family="Playfair Display, Georgia, serif" font-size="42" font-weight="700" fill="#f5f5f5" letter-spacing="2">
+    FAMA<tspan fill="url(#goldGradient)">.LAB</tspan>
+  </text>
+</svg>

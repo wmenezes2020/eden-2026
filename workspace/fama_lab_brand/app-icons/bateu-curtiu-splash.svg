@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c9a962"/>
+      <stop offset="50%" style="stop-color:#e5d4a1"/>
+      <stop offset="100%" style="stop-color:#c9a962"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Full background -->
+  <rect width="1024" height="1024" fill="url(#bgGradient)"/>
+  
+  <!-- Subtle pattern overlay -->
+  <g opacity="0.05">
+    <pattern id="dotPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="2" fill="#c9a962"/>
+    </pattern>
+    <rect width="1024" height="1024" fill="url(#dotPattern)"/>
+  </g>
+  
+  <!-- Central logo -->
+  <g transform="translate(512, 512)">
+    <!-- Outer glow -->
+    <circle cx="0" cy="0" r="200" fill="#c9a962" opacity="0.1"/>
+    
+    <!-- App icon centered -->
+    <g transform="translate(-200, -200) scale(0.39)">
+      <!-- Outer ring -->
+      <circle cx="512" cy="512" r="480" fill="none" stroke="url(#goldGradient)" stroke-width="8"/>
+      
+      <!-- Inner decorative ring -->
+      <circle cx="512" cy="512" r="440" fill="none" stroke="#c9a962" stroke-width="2" opacity="0.5"/>
+      
+      <!-- BATEU text -->
+      <text x="512" y="320" font-family="Playfair Display, Georgia, serif" font-size="120" font-weight="700" fill="url(#goldGradient)" text-anchor="middle" letter-spacing="8">
+        BATEU
+      </text>
+      
+      <!-- Decorative line -->
+      <line x1="256" y1="380" x2="768" y2="380" stroke="url(#goldGradient)" stroke-width="4"/>
+      
+      <!-- CURTIU text -->
+      <text x="512" y="700" font-family="Playfair Display, Georgia, serif" font-size="120" font-weight="700" fill="url(#goldGradient)" text-anchor="middle" letter-spacing="8">
+        CURTIU
+      </text>
+      
+      <!-- Heart icon -->
+      <g transform="translate(462, 430)">
+        <path d="M50 90 C20 60, 0 40, 0 25 C0 10, 10 0, 25 0 C35 0, 45 5, 50 15 C55 5, 65 0, 75 0 C90 0, 100 10, 100 25 C100 40, 80 60, 50 90 Z" fill="url(#goldGradient)"/>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Loading indicator -->
+  <g transform="translate(512, 800)">
+    <circle cx="-60" cy="0" r="8" fill="#c9a962">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="-20" cy="0" r="8" fill="#c9a962">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" begin="0.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="20" cy="0" r="8" fill="#c9a962">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" begin="0.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="60" cy="0" r="8" fill="#c9a962">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" begin="0.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Tagline -->
+  <text x="512" y="900" font-family="Inter, Arial, sans-serif" font-size="24" fill="#c9a962" text-anchor="middle" letter-spacing="4" opacity="0.7">
+    CONNECT • SHARE • DISCOVER
+  </text>
+</svg>

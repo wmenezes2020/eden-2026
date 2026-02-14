@@ -1,0 +1,1 @@
+{"notify_telegram_on_unauthorized_whatsapp": true, "telegram_user": "@wesleymenezesofc", "allowed_whatsapp_numbers_file": "memory/whatsapp_allowed_numbers.json", "note": "When a WhatsApp message arrives from a number not listed in allowed_whatsapp_numbers.json, send an immediate Telegram alert with the sender name and phone number."}

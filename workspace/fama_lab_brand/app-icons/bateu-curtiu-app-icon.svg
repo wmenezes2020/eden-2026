@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#111111"/>
+    </linearGradient>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c9a962"/>
+      <stop offset="50%" style="stop-color:#e5d4a1"/>
+      <stop offset="100%" style="stop-color:#c9a962"/>
+    </linearGradient>
+    <linearGradient id="goldGradientV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#c9a962"/>
+      <stop offset="50%" style="stop-color:#e5d4a1"/>
+      <stop offset="100%" style="stop-color:#c9a962"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgGradient)"/>
+  
+  <!-- Outer ring -->
+  <circle cx="512" cy="512" r="480" fill="none" stroke="url(#goldGradient)" stroke-width="8"/>
+  
+  <!-- Inner decorative ring -->
+  <circle cx="512" cy="512" r="440" fill="none" stroke="#c9a962" stroke-width="2" opacity="0.5"/>
+  
+  <!-- BATEU text (top) -->
+  <text x="512" y="320" font-family="Playfair Display, Georgia, serif" font-size="120" font-weight="700" fill="url(#goldGradient)" text-anchor="middle" letter-spacing="8">
+    BATEU
+  </text>
+  
+  <!-- Decorative line -->
+  <line x1="256" y1="380" x2="768" y2="380" stroke="url(#goldGradient)" stroke-width="4"/>
+  
+  <!-- CURTIU text (bottom) -->
+  <text x="512" y="700" font-family="Playfair Display, Georgia, serif" font-size="120" font-weight="700" fill="url(#goldGradient)" text-anchor="middle" letter-spacing="8">
+    CURTIU
+  </text>
+  
+  <!-- Heart icon in center -->
+  <g transform="translate(462, 430)">
+    <path d="M50 90 C20 60, 0 40, 0 25 C0 10, 10 0, 25 0 C35 0, 45 5, 50 15 C55 5, 65 0, 75 0 C90 0, 100 10, 100 25 C100 40, 80 60, 50 90 Z" fill="url(#goldGradient)"/>
+    
+    <!-- Shine effect -->
+    <ellipse cx="30" cy="20" rx="12" ry="8" fill="#ffffff" opacity="0.4"/>
+  </g>
+  
+  <!-- Small decorative dots -->
+  <circle cx="200" cy="512" r="8" fill="#e5d4a1"/>
+  <circle cx="824" cy="512" r="8" fill="#e5d4a1"/>
+</svg>

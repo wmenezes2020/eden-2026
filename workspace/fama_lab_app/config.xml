@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget id="com.famalab.bateu.curtiu" version="1.0.0" 
+        xmlns="http://www.w3.org/ns/widgets" 
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>BATEU, CURTIU</name>
+    <description>A premium music and entertainment platform</description>
+    <author email="dev@famalab.com" href="https://famalab.com">
+        FamaLab Team
+    </author>
+    <content src="index.html" />
+
+    <!-- Access configuration -->
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-navigation href="*" />
+    
+    <!-- Android specific -->
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <preference name="android-minSdkVersion" value="22" />
+        <preference name="android-targetSdkVersion" value="33" />
+        <preference name="android-compileSdkVersion" value="33" />
+        <preference name="BackgroundColor" value="0xff000000" />
+        <icon density="ldpi" src="www/assets/icon-ldpi.png" />
+        <icon density="mdpi" src="www/assets/icon-mdpi.png" />
+        <icon density="hdpi" src="www/assets/icon-hdpi.png" />
+        <icon density="xhdpi" src="www/assets/icon-xhdpi.png" />
+        <icon density="xxhdpi" src="www/assets/icon-xxhdpi.png" />
+        <icon density="xxxhdpi" src="www/assets/icon-xxxhdpi.png" />
+        <splash density="port-ldpi" src="www/assets/splash-port-ldpi.png" />
+        <splash density="port-mdpi" src="www/assets/splash-port-mdpi.png" />
+        <splash density="port-hdpi" src="www/assets/splash-port-hdpi.png" />
+        <splash density="port-xhdpi" src="www/assets/splash-port-xhdpi.png" />
+        <splash density="port-xxhdpi" src="www/assets/splash-port-xxhdpi.png" />
+        <splash density="port-xxxhdpi" src="www/assets/splash-port-xxxhdpi.png" />
+    </platform>
+
+    <!-- iOS specific -->
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <preference name="deployment-target" value="13.0" />
+        <preference name="WKWebViewOnly" value="true" />
+        <feature name="CDVWKWebViewEngine">
+            <param name="ios-package" value="CDVWKWebViewEngine" />
+        </feature>
+        <icon height="180" src="www/assets/icon-ios-180.png" width="180" />
+        <icon height="120" src="www/assets/icon-ios-120.png" width="120" />
+        <icon height="152" src="www/assets/icon-ios-152.png" width="152" />
+        <icon height="167" src="www/assets/icon-ios-167.png" width="167" />
+        <splash height="1136" src="www/assets/splash-ios-1136.png" width="640" />
+        <splash height="1334" src="www/assets/splash-ios-1334.png" width="750" />
+        <splash height="1920" src="www/assets/splash-ios-1920.png" width="1080" />
+        <splash height="2208" src="www/assets/splash-ios-2208.png" width="1242" />
+    </platform>
+
+    <!-- Plugin configurations -->
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="BackgroundColor" value="0xff000000" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="ShowSplashScreen" value="true" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    
+    <!-- Capacitor preferences -->
+    <preference name=" capacitorCordovaLinkingScheme" value="bateu-curtiu" />
+</widget>

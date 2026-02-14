@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c9a962"/>
+      <stop offset="100%" style="stop-color:#e5d4a1"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="#111"/>
+  
+  <!-- Star Icon -->
+  <path d="M200 40 L230 150 L350 150 L250 220 L290 330 L200 265 L110 330 L150 220 L50 150 L170 150 Z" fill="url(#gold)"/>
+  
+  <!-- Heart -->
+  <path d="M200 110 C180 90 150 90 130 110 C110 90 80 90 60 110 C40 130 60 160 200 260 C340 160 360 130 340 110 C320 90 290 90 270 110 C250 90 220 90 200 110 Z" fill="#111"/>
+  
+  <!-- B text -->
+  <text x="200" y="200" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="url(#gold)" text-anchor="middle">B</text>
+</svg>

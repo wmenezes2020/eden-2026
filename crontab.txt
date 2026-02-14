@@ -1,0 +1,5 @@
+# Motivacional automático - Autoestima
+# 22:00 UTC-3 (01:00 UTC) - Boa noite
+0 1 * * * /root/clawd/scripts/auto_motivacional.sh >> /root/clawd/logs/cron.log 2>&1
+# 06:00 UTC-3 (09:00 UTC) - Bom dia
+0 9 * * * /root/clawd/scripts/auto_motivacional.sh >> /root/clawd/logs/cron.log 2>&1

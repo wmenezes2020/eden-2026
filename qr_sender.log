@@ -1,0 +1,15 @@
+[01:59:19] === WhatsApp QR Sender Iniciado ===
+[01:59:19] Este script mantém uma sessão aberta do WhatsApp
+[01:59:19] Os QR codes serão atualizados automaticamente quando expirarem
+[01:59:19] 
+[01:59:20] Iniciando sessão WhatsApp...
+[01:59:20] O QR code será gerado em breve...
+[01:59:20] 
+[01:59:20] 🎉 AUTENTICAÇÃO CONFIRMADA!
+[01:59:20] 
+[01:59:20] Sessão estabelecida. Encerrando...
+Starting authentication...
+
+Scan this QR code with WhatsApp (Linked Devices):
+QR data saved to: /root/clawd/wacli_qr_temp
+QR image saved to: /root/clawd/wacli_qr_temp.png

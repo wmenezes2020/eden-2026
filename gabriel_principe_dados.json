@@ -1,0 +1,30 @@
+{
+  "infoBasica": {
+    "nome": "Gabriel O Príncipe de Aracajú",
+    "cidade": "Aracaju, Sergipe",
+    "estilo": "Forró / Arrocha / Música Nordestina",
+    "canais": []
+  },
+  "musicasFamosas": [],
+  "redesSociais": {
+    "instagram": {
+      "url": "https://instagram.com/gabrieloprincipe_oficial",
+      "seguidores": "A ser confirmado"
+    },
+    "tiktok": {
+      "url": "https://tiktok.com/@gabrieloprincipe_oficial",
+      "seguidores": "A ser confirmado"
+    },
+    "youtube": {
+      "url": "https://youtube.com/@GabrielOPrincipe",
+      "inscritos": "A ser confirmado"
+    },
+    "spotify": {
+      "url": "https://open.spotify.com/artist/...",
+      "ouvintes": "A ser confirmado"
+    }
+  },
+  "discografia": [],
+  "noticias": [],
+  "dadosImprensa": {}
+}

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <title>BATEU, CURTIU</title>
+    
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    <link rel="apple-touch-icon" href="assets/icon-ios-180.png">
+    <link rel="apple-touch-startup-image" href="assets/splash.png">
+    
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Splash Screen -->
+        <div id="splash-screen" class="splash-screen">
+            <div class="splash-content">
+                <div class="splash-logo">
+                    <span class="logo-text">BATEU</span>
+                    <span class="logo-divider">,</span>
+                    <span class="logo-text accent">CURTIU</span>
+                </div>
+                <div class="splash-loader">
+                    <div class="loader-ring"></div>
+                    <div class="loader-ring"></div>
+                    <div class="loader-ring"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Container -->
+        <div id="app-container" class="app-container hidden">
+            <!-- Status Bar Spacer -->
+            <div class="status-bar-spacer"></div>
+            
+            <!-- Header -->
+            <header class="app-header" :class="{ 'header-hidden': isHeaderHidden }">
+                <div class="header-content">
+                    <button class="header-btn menu-btn" @click="toggleMenu">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <h1 class="app-title">
+                        <span class="title-main">BATEU</span>
+                        <span class="title-accent">, CURTIU</span>
+                    </h1>
+                    <button class="header-btn search-btn" @click="openSearch">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content" ref="mainContent" @scroll="handleScroll">
+                <!-- Home View -->
+                <section v-show="currentView === 'home'" class="view home-view">
+                    <!-- Featured Section -->
+                    <div class="featured-section" @click="playFeatured">
+                        <div class="featured-backdrop" :style="{ backgroundImage: `url(${featuredItem?.cover})` }"></div>
+                        <div class="featured-overlay"></div>
+                        <div class="featured-content">
+                            <span class="featured-badge">DESTAQUE</span>
+                            <h2 class="featured-title">{{ featuredItem?.title || 'Novidades da Semana' }}</h2>
+                            <p class="featured-artist">{{ featuredItem?.artist || 'Artistas em Alta' }}</p>
+                            <div class="featured-actions">
+                                <button class="btn-primary play-btn">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <polygon points="5,3 19,12 5,21"></polygon>
+                                    </svg>
+                                    <span>ouvir agora</span>
+                                </button>
+                                <button class="btn-secondary like-btn" :class="{ liked: featuredItem?.liked }" @click.stop="toggleLike(featuredItem)">
+                                    <svg viewBox="0 0 24 24" :fill="featuredItem?.liked ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Access Cards -->
+                    <div class="quick-access">
+                        <div class="quick-card" @click="navigateTo('trending')">
+                            <div class="quick-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"></polyline>
+                                    <polyline points="17,6 23,6 23,12"></polyline>
+                                </svg>
+                            </div>
+                            <span>Trending</span>
+                        </div>
+                        <div class="quick-card" @click="navigateTo('new-releases')">
+                            <div class="quick-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polygon points="10,8 16,12 10,16"></polygon>
+                                </svg>
+                            </div>
+                            <span>Lançamentos</span>
+                        </div>
+                        <div class="quick-card" @click="navigateTo('playlists')">
+                            <div class="quick-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                                </svg>
+                            </div>
+                            <span>Playlists</span>
+                        </div>
+                        <div class="quick-card" @click="navigateTo('offline')">
+                            <div class="quick-card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                                </svg>
+                            </div>
+                            <span>Offline</span>
+                        </div>
+                    </div>
+
+                    <!-- Continue Listening -->
+                    <div class="content-section" v-if="continueListening.length > 0">
+                        <div class="section-header">
+                            <h3>Continuar Ouvindo</h3>
+                            <button class="see-all-btn" @click="navigateTo('history')">Ver tudo</button>
+                        </div>
+                        <div class="horizontal-scroll">
+                            <div class="track-card" v-for="track in continueListening" :key="track.id" @click="playTrack(track)">
+                                <div class="track-cover">
+                                    <img :src="track.cover" :alt="track.title">
+                                    <div class="track-play-overlay">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <polygon points="5,3 19,12 5,21"></polygon>
+                                        </svg>
+                                    </div>
+                                    <div class="progress-bar" v-if="track.progress > 0">
+                                        <div class="progress-fill" :style="{ width: track.progress + '%' }"></div>
+                                    </div>
+                                </div>
+                                <div class="track-info">
+                                    <h4 class="track-title">{{ track.title }}</h4>
+                                    <p class="track-artist">{{ track.artist }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trending Section -->
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h3>Em Alta</h3>
+                            <button class="see-all-btn" @click="navigateTo('trending')">Ver tudo</button>
+                        </div>
+                        <div class="horizontal-scroll">
+                            <div class="track-card" v-for="track in trendingTracks" :key="track.id" @click="playTrack(track)">
+                                <div class="track-cover">
+                                    <img :src="track.cover" :alt="track.title">
+                                    <div class="track-play-overlay">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <polygon points="5,3 19,12 5,21"></polygon>
+                                        </svg>
+                                    </div>
+                                    <span class="track-number">{{ track.position }}</span>
+                                </div>
+                                <div class="track-info">
+                                    <h4 class="track-title">{{ track.title }}</h4>
+                                    <p class="track-artist">{{ track.artist }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artists Section -->
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h3>Artistas</h3>
+                            <button class="see-all-btn" @click="navigateTo('artists')">Ver tudo</button>
+                        </div>
+                        <div class="horizontal-scroll artists-scroll">
+                            <div class="artist-card" v-for="artist in topArtists" :key="artist.id" @click="viewArtist(artist)">
+                                <div class="artist-avatar">
+                                    <img :src="artist.avatar" :alt="artist.name">
+                                </div>
+                                <h4 class="artist-name">{{ artist.name }}</h4>
+                                <p class="artist-followers">{{ formatFollowers(artist.followers) }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Playlists Section -->
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h3>Playlists Para Você</h3>
+                            <button class="see-all-btn" @click="navigateTo('playlists')">Ver tudo</button>
+                        </div>
+                        <div class="grid-playlists">
+                            <div class="playlist-card" v-for="playlist in recommendedPlaylists" :key="playlist.id" @click="openPlaylist(playlist)">
+                                <div class="playlist-cover">
+                                    <img :src="playlist.cover" :alt="playlist.name">
+                                    <div class="playlist-play-overlay">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <polygon points="5,3 19,12 5,21"></polygon>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h4 class="playlist-name">{{ playlist.name }}</h4>
+                                <p class="playlist-description">{{ playlist.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Videos Section -->
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h3>Vídeos</h3>
+                            <button class="see-all-btn" @click="navigateTo('videos')">Ver tudo</button>
+                        </div>
+                        <div class="horizontal-scroll">
+                            <div class="video-card" v-for="video in featuredVideos" :key="video.id" @click="playVideo(video)">
+                                <div class="video-cover">
+                                    <img :src="video.thumbnail" :alt="video.title">
+                                    <div class="video-duration">{{ video.duration }}</div>
+                                    <div class="video-play-overlay">
+                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                            <polygon points="5,3 19,12 5,21"></polygon>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="video-info">
+                                    <h4 class="video-title">{{ video.title }}</h4>
+                                    <p class="video-artist">{{ video.artist }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom padding for player -->
+                    <div class="bottom-padding"></div>
+                </section>
+
+                <!-- Artist View -->
+                <section v-show="currentView === 'artist'" class="view artist-view">
+                    <div class="artist-header" :style="{ backgroundImage: `url(${currentArtist?.banner})` }">
+                        <div class="artist-header-overlay"></div>
+                        <button class="back-btn" @click="goBack">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12,19 5,12 12,5"></polyline>
+                            </svg>
+                        </button>
+                        <div class="artist-header-content">
+                            <div class="artist-header-avatar">
+                                <img :src="currentArtist?.avatar" :alt="currentArtist?.name">
+                            </div>
+                            <h2 class="artist-header-name">{{ currentArtist?.name }}</h2>
+                            <p class="artist-header-followers">{{ formatFollowers(currentArtist?.followers) }} seguidores</p>
+                            <div class="artist-actions">
+                                <button class="btn-primary" @click="playArtist">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <polygon points="5,3 19,12 5,21"></polygon>
+                                    </svg>
+                                    <span>Seguir</span>
+                                </button>
+                                <button class="btn-secondary" @click="toggleArtistFollow(currentArtist)">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" v-if="currentArtist?.following">
+                                        <polyline points="20,6 9,17 4,12"></polyline>
+                                    </svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" v-else>
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="artist-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">{{ currentArtist?.tracks || 0 }}</span>
+                            <span class="stat-label">Músicas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">{{ currentArtist?.albums || 0 }}</span>
+                            <span class="stat-label">Álbuns</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">{{ currentArtist?.points || 0 }}</span>
+                            <span class="stat-label">Pontos</span>
+                        </div>
+                    </div>
+                    <div class="artist-content">
+                        <div class="content-section">
+                            <h3>Populares</h3>
+                            <div class="track-list">
+                                <div class="track-item" v-for="(track, index) in currentArtist?.topTracks" :key="track.id" @click="playTrack(track)">
+                                    <span class="track-index">{{ index + 1 }}</span>
+                                    <img :src="track.cover" :alt="track.title" class="track-item-cover">
+                                    <div class="track-item-info">
+                                        <h4>{{ track.title }}</h4>
+                                        <p>{{ formatPlays(track.plays) }} reproduções</p>
+                                    </div>
+                                    <button class="track-item-btn" @click.stop="toggleLike(track)">
+                                        <svg viewBox="0 0 24 24" :fill="track.liked ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="track-item-btn" @click.stop="addToPlaylist(track)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-padding"></div>
+                </section>
+
+                <!-- Playlist View -->
+                <section v-show="currentView === 'playlist'" class="view playlist-view">
+                    <div class="playlist-header" :style="{ backgroundImage: `url(${currentPlaylist?.cover})` }">
+                        <div class="playlist-header-overlay"></div>
+                        <button class="back-btn" @click="goBack">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12,19 5,12 12,5"></polyline>
+                            </svg>
+                        </button>
+                        <div class="playlist-header-content">
+                            <div class="playlist-header-cover">
+                                <img :src="currentPlaylist?.cover" :alt="currentPlaylist?.name">
+                            </div>
+                            <h2 class="playlist-header-name">{{ currentPlaylist?.name }}</h2>
+                            <p class="playlist-header-description">{{ currentPlaylist?.description }}</p>
+                            <div class="playlist-meta">
+                                <span>{{ currentPlaylist?.trackCount || 0 }} músicas</span>
+                                <span>{{ currentPlaylist?.duration || '0h 0m' }}</span>
+                            </div>
+                            <div class="playlist-actions">
+                                <button class="btn-primary" @click="playPlaylist(currentPlaylist)">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <polygon points="5,3 19,12 5,21"></polygon>
+                                    </svg>
+                                    <span>Tocar</span>
+                                </button>
+                                <button class="btn-secondary" @click="togglePlaylistSave(currentPlaylist)">
+                                    <svg viewBox="0 0 24 24" :fill="currentPlaylist?.saved ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </button>
+                                <button class="btn-secondary" @click="sharePlaylist(currentPlaylist)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="18" cy="5" r="3"></circle>
+                                        <circle cx="6" cy="12" r="3"></circle>
+                                        <circle cx="18" cy="19" r="3"></circle>
+                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="playlist-content">
+                        <div class="track-list">
+                            <div class="track-item" v-for="(track, index) in currentPlaylist?.tracks" :key="track.id" @click="playTrack(track)">
+                                <span class="track-index">{{ index + 1 }}</span>
+                                <img :src="track.cover" :alt="track.title" class="track-item-cover">
+                                <div class="track-item-info">
+                                    <h4>{{ track.title }}</h4>
+                                    <p>{{ track.artist }}</p>
+                                </div>
+                                <div class="track-item-actions">
+                                    <button class="track-item-btn" @click.stop="toggleLike(track)">
+                                        <svg viewBox="0 0 24 24" :fill="track.liked ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-padding"></div>
+                </section>
+
+                <!-- Search View -->
+                <section v-show="currentView === 'search'" class="view search-view">
+                    <div class="search-header">
+                        <button class="back-btn" @click="goBack">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12,19 5,12 12,5"></polyline>
+                            </svg>
+                        </button>
+                        <div class="search-input-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-icon">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" v-model="searchQuery" placeholder="Buscar músicas, artistas, playlists..." class="search-input" ref="searchInput" @input="handleSearch">
+                        </div>
+                    </div>
+                    <div class="search-content" v-if="!searchQuery">
+                        <div class="search-suggestions">
+                            <h3>Buscar em</h3>
+                            <div class="suggestion-chips">
+                                <button class="chip" v-for="chip in searchChips" :key="chip" @click="searchQuery = chip; handleSearch()">{{ chip }}</button>
+                            </div>
+                        </div>
+                        <div class="recent-searches" v-if="recentSearches.length > 0">
+                            <h3>Buscar recentes</h3>
+                            <div class="recent-list">
+                                <div class="recent-item" v-for="(search, index) in recentSearches" :key="index" @click="searchQuery = search; handleSearch()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12,6 12,12 16,14"></polyline>
+                                    </svg>
+                                    <span>{{ search }}</span>
+                                    <button class="remove-btn" @click.stop="removeRecentSearch(index)">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-results" v-else>
+                        <div class="results-section" v-if="searchResults.tracks.length > 0">
+                            <h3>Músicas</h3>
+                            <div class="track-list">
+                                <div class="track-item" v-for="track in searchResults.tracks" :key="track.id" @click="playTrack(track)">
+                                    <img :src="track.cover" :alt="track.title" class="track-item-cover">
+                                    <div class="track-item-info">
+                                        <h4>{{ track.title }}</h4>
+                                        <p>{{ track.artist }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="results-section" v-if="searchResults.artists.length > 0">
+                            <h3>Artistas</h3>
+                            <div class="horizontal-scroll">
+                                <div class="artist-card" v-for="artist in searchResults.artists" :key="artist.id" @click="viewArtist(artist)">
+                                    <div class="artist-avatar">
+                                        <img :src="artist.avatar" :alt="artist.name">
+                                    </div>
+                                    <h4 class="artist-name">{{ artist.name }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="results-section" v-if="searchResults.playlists.length > 0">
+                            <h3>Playlists</h3>
+                            <div class="grid-playlists">
+                                <div class="playlist-card" v-for="playlist in searchResults.playlists" :key="playlist.id" @click="openPlaylist(playlist)">
+                                    <div class="playlist-cover">
+                                        <img :src="playlist.cover" :alt="playlist.name">
+                                    </div>
+                                    <h4 class="playlist-name">{{ playlist.name }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Fan Points View -->
+                <section v-show="currentView === 'fanpoints'" class="view fanpoints-view">
+                    <div class="fanpoints-header">
+                        <h2>Meus Pontos</h2>
+                        <div class="fanpoints-total">
+                            <span class="points-value">{{ userPoints.total }}</span>
+                            <span class="points-label">pontos</span>
+                        </div>
+                    </div>
+                    <div class="fanpoints-content">
+                        <div class="points-card gold">
+                            <div class="points-card-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon>
+                                </svg>
+                            </div>
+                            <div class="points-card-info">
+                                <h3>Nível {{ userPoints.level }}</h3>
+                                <p>{{ userPoints.nextLevelProgress }} pontos para o próximo nível</p>
+                            </div>
+                            <div class="level-progress">
+                                <div class="level-progress-bar" :style="{ width: userPoints.levelProgress + '%' }"></div>
+                            </div>
+                        </div>
+                        <div class="points-stats">
+                            <div class="points-stat">
+                                <span class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polygon points="10,8 16,12 10,16"></polygon>
+                                    </svg>
+                                </span>
+                                <span class="stat-value">{{ userPoints.listeningMinutes }}</span>
+                                <span class="stat-label">minutos ouvindo</span>
+                            </div>
+                            <div class="points-stat">
+                                <span class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </span>
+                                <span class="stat-value">{{ userPoints.likes }}</span>
+                                <span class="stat-label">curtidas</span>
+                            </div>
+                            <div class="points-stat">
+                                <span class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                                    </svg>
+                                </span>
+                                <span class="stat-value">{{ userPoints.playlists }}</span>
+                                <span class="stat-label">playlists</span>
+                            </div>
+                        </div>
+                        <div class="rewards-section">
+                            <h3>Recompensas</h3>
+                            <div class="rewards-list">
+                                <div class="reward-item" v-for="reward in rewards" :key="reward.id" :class="{ unlocked: reward.unlocked }">
+                                    <div class="reward-icon">{{ reward.icon }}</div>
+                                    <div class="reward-info">
+                                        <h4>{{ reward.name }}</h4>
+                                        <p>{{ reward.description }}</p>
+                                    </div>
+                                    <div class="reward-cost">{{ reward.cost }} pts</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="history-section">
+                            <h3>Histórico</h3>
+                            <div class="history-list">
+                                <div class="history-item" v-for="(item, index) in pointsHistory" :key="index">
+                                    <div class="history-icon" :class="item.type">
+                                        <svg v-if="item.type === 'earn'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                                            <polyline points="5,12 12,5 19,12"></polyline>
+                                        </svg>
+                                        <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <polyline points="19,12 12,19 5,12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="history-info">
+                                        <h4>{{ item.description }}</h4>
+                                        <p>{{ item.date }}</p>
+                                    </div>
+                                    <div class="history-points" :class="item.type">
+                                        {{ item.type === 'earn' ? '+' : '-' }}{{ item.points }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-padding"></div>
+                </section>
+
+                <!-- Profile View -->
+                <section v-show="currentView === 'profile'" class="view profile-view">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <img :src="userProfile.avatar" :alt="userProfile.name">
+                            <button class="edit-avatar-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                    <circle cx="12" cy="13" r="4"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                        <h2 class="profile-name">{{ userProfile.name }}</h2>
+                        <p class="profile-username">@{{ userProfile.username }}</p>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <span class="stat-value">{{ userProfile.following }}</span>
+                            <span class="stat-label">Seguindo</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-value">{{ userProfile.followers }}</span>
+                            <span class="stat-label">Seguidores</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-value">{{ userProfile.points }}</span>
+                            <span class="stat-label">Pontos</span>
+                        </div>
+                    </div>
+                    <div class="profile-content">
+                        <div class="profile-section">
+                            <h3>Minhas Playlists</h3>
+                            <button class="create-playlist-btn" @click="createPlaylist">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>Criar Playlist</span>
+                            </button>
+                            <div class="user-playlists">
+                                <div class="playlist-card" v-for="playlist in userPlaylists" :key="playlist.id" @click="openPlaylist(playlist)">
+                                    <div class="playlist-cover">
+                                        <img :src="playlist.cover" :alt="playlist.name">
+                                    </div>
+                                    <h4 class="playlist-name">{{ playlist.name }}</h4>
+                                    <p class="playlist-meta">{{ playlist.trackCount }} músicas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h3>Músicas Curtidas</h3>
+                            <div class="liked-songs">
+                                <div class="track-item" v-for="(track, index) in likedTracks.slice(0, 5)" :key="track.id" @click="playTrack(track)">
+                                    <span class="track-index">{{ index +

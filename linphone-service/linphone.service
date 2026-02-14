@@ -1,0 +1,12 @@
+[Unit]
+Description=Linphone Wrapper Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/root/linphone-service/venv/bin/python /root/linphone-service/service.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
